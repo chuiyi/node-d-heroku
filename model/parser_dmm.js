@@ -54,6 +54,7 @@ exports.parseVideo = function(url, callback) {
             video.number_array = number;
             video.number = number[number.length - 2] + '-' + getNumberWithDigit(parseInt(number[number.length - 1]), 3);
             video.number = video.number.toUpperCase();
+            video.description = $('div.mg-b20.lh4')[0].children[0].data.replace(/\n/g, '');
 
             var info = $('table.mg-b20');
             info.find('tr').each(function(i, elem) {
