@@ -22,9 +22,24 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-// app.use('/users', users);
+app.use('/', index);	
 app.use('/api/dmm', api_dmm);
+
+var contentDisposition = require('content-disposition');
+var scan = require('./scan');
+var tree = scan('.', 'files');
+console.log(tree);
+app.use('/', express.static(path.join(__dirname, 'frontend')));
+app.use('/files', express.static(process.cwd(), {
+    index: false,
+    setHeaders: function(res, path) {
+        // Set header to force files to download
+        res.setHeader('Content-Disposition', contentDisposition(path))
+    }
+}));
+app.get('/scan', function(req, res) {
+    res.send(tree);
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

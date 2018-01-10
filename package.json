@@ -8,6 +8,7 @@
   "dependencies": {
     "body-parser": "~1.17.1",
     "cheerio": "^1.0.0-rc.2",
+    "commander": "^2.12.2",
     "cookie-parser": "~1.4.3",
     "crawler": "^1.1.2",
     "debug": "~2.6.3",
