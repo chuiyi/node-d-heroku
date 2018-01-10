@@ -32,7 +32,7 @@ router.all('/query', function(req, res) {
             // });
         });
     }
-});
+})
 
 router.all('/video', function(req, res) {
     if (req.query) {
@@ -54,6 +54,18 @@ router.all('/video', function(req, res) {
         //     console.log(video);
         // });
         // });
+    }
+})
+
+router.all('/list', function(req, res) {
+    if (req.query) {
+        var url_list = 'http://www.dmm.co.jp/digital/videoa/-/list/=/sort=ranking/';
+        if (req.query.url) {
+            url_list = req.query.url;
+        }
+        dmm_parser.parseList(url_list, function(videos) {
+            res.send(videos);
+        });
     }
 })
 
