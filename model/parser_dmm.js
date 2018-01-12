@@ -166,10 +166,10 @@ function getNumberWithDigit(number, digit) {
 }
 
 function getNumberWithFileName(name) {
-    var splitParseFileName = parseFileName.split('.');
+    var splitParseFileName = name.split('.');
     if (splitParseFileName.length > 1) {
         var ext = '.' + splitParseFileName[splitParseFileName.length - 1];
-        name = parseFileName.substring(0, parseFileName.length - ext.length);
+        name = name.substring(0, name.length - ext.length);
     }
 
     var number_array = name.match(/[a-zA-Z]+|[0-9]+/g);
