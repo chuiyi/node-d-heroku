@@ -134,7 +134,7 @@ exports.parseVideo = function(url, callback) {
                     });
                 }
                 // if ($(this).text().includes('平均評価'))
-                // 	console.log($(this).html());
+                //  console.log($(this).html());
 
                 video.img_sample = [];
                 $('img.mg-b6').each(function(i_s, elem_s) {
@@ -164,3 +164,19 @@ function getNumberWithDigit(number, digit) {
     }
     return result;
 }
+
+function getNumberWithFileName(name) {
+    var splitParseFileName = parseFileName.split('.');
+    if (splitParseFileName.length > 1) {
+        var ext = '.' + splitParseFileName[splitParseFileName.length - 1];
+        name = parseFileName.substring(0, parseFileName.length - ext.length);
+    }
+
+    var number_array = name.match(/[a-zA-Z]+|[0-9]+/g);
+    var number = number_array[number_array.length - 2] + '-' + getNumberWithDigit(parseInt(number_array[number_array.length - 1]), 5);
+    number = number.toUpperCase();
+
+    return number;
+}
+
+exports.getNumberWithFileName = getNumberWithFileName;

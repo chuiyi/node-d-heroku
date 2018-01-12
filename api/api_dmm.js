@@ -34,6 +34,21 @@ router.all('/query', function(req, res) {
     }
 })
 
+router.all('/queryFile', function(req, res) {
+    if (req.query) {
+        var url_search;
+        if (req.query.q) {
+            var parseFileName = req.query.q;
+            url_search = dmm_parser.getNumberWithFileName(parseFileName);
+        } else {
+            url_search = dmm_parser.parseQueryUrl('大橋未久');
+        }
+        dmm_parser.parseList(url_search, function(videos) {
+            res.send(videos);
+        });
+    }
+})
+
 router.all('/video', function(req, res) {
     if (req.query) {
         var url_video = 'http://www.dmm.co.jp/digital/videoa/-/detail/=/cid=kawd030/';
