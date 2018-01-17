@@ -31,6 +31,8 @@ exports.parseList = function(url, callback) {
 
             //list-boxcaptside list-boxpagenation
             //parse 不只一頁狀況
+            // <li><a href="/digital/videoa/-/list/=/article=actress/id=21597/page=2/">次へ</a></li>
+            // <li class="terminal"><a href="/digital/videoa/-/list/=/article=actress/id=21597/page=4/">最後へ</a></li>
             if (callback)
                 callback(videos);
         }
@@ -84,11 +86,13 @@ exports.parseVideo = function(url, callback) {
                 if ($(this).text().includes('出演者')) {
                     video.actresses = [];
                     $(this).find('span a').each(function(i_s, elem_s) {
-                        var actress = new Object();
-                        actress.name = $(elem_s).text();
-                        actress.link = 'http://www.dmm.co.jp' + $(elem_s).attr('href');
-                        actress.id = actress.link.split("/id=")[1].split("/")[0];
-                        video.actresses.push(actress);
+                        if ($(elem_s).text().indexof('すべて表示する') < 0) {
+                            var actress = new Object();
+                            actress.name = $(elem_s).text();
+                            actress.link = 'http://www.dmm.co.jp' + $(elem_s).attr('href');
+                            actress.id = actress.link.split("/id=")[1].split("/")[0];
+                            video.actresses.push(actress);
+                        }
                     });
                 }
                 if ($(this).text().includes('監督')) {
