@@ -91,9 +91,9 @@ router.all('/actress', function(req, res) {
     if (req.query) {
         var url_list = 'http://www.dmm.co.jp/digital/videoa/-/list/=/article=actress/id=1034355/';
         if (req.query.id) {
-            url_list = 'http://www.dmm.co.jp/digital/videoa/-/list/=/article=actress/id=' + req.query.cid + '/';
+            url_list = 'http://www.dmm.co.jp/digital/videoa/-/list/=/article=actress/id=' + req.query.id + '/';
         }
-        dmm_parser.parseVideo(url_list, function(video) {
+        dmm_parser.parseList(url_list, function(video) {
             res.send(video);
         });
     }

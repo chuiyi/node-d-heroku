@@ -47,7 +47,9 @@ exports.parseVideo = function(url, callback) {
 
             var video = new Object();
             video.link = url;
+            console.log(url);
             video.title = $('h1#title').text();
+
             video.cid = video.link.split("cid=")[1].split("/")[0];
             video.img_cover = 'http://pics.dmm.co.jp/digital/video/' + video.cid + '/' + video.cid + 'pl.jpg'
             var number = video.cid.match(/[a-zA-Z]+|[0-9]+/g);
