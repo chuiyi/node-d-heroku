@@ -85,6 +85,7 @@ exports.parseVideo = function(url, callback) {
                 }
                 if ($(this).text().includes('出演者')) {
                     video.actresses = [];
+                    video.actresses_huge = false;
                     $(this).find('span a').each(function(i_s, elem_s) {
                         if ($(elem_s).text().indexOf('すべて表示する') < 0) {
                             var actress = new Object();
@@ -92,6 +93,8 @@ exports.parseVideo = function(url, callback) {
                             actress.link = 'http://www.dmm.co.jp' + $(elem_s).attr('href');
                             actress.id = actress.link.split("/id=")[1].split("/")[0];
                             video.actresses.push(actress);
+                        } else {
+                            video.actresses_huge = true;
                         }
                     });
                 }
