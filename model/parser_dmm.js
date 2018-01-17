@@ -94,6 +94,7 @@ exports.parseVideo = function(url, callback) {
                         var director = new Object();
                         director.name = $(elem_s).text();
                         director.link = 'http://www.dmm.co.jp' + $(elem_s).attr('href');
+                        director.id = director.link.split("/id=")[1].split("/")[0];
                         video.directors.push(director);
                     });
                 }
@@ -103,6 +104,7 @@ exports.parseVideo = function(url, callback) {
                         var series = new Object();
                         series.name = $(elem_s).text();
                         series.link = 'http://www.dmm.co.jp' + $(elem_s).attr('href');
+                        series.id = series.link.split("/id=")[1].split("/")[0];
                         video.series.push(series);
                     });
                 }
@@ -112,6 +114,7 @@ exports.parseVideo = function(url, callback) {
                         var maker = new Object();
                         maker.name = $(elem_s).text();
                         maker.link = 'http://www.dmm.co.jp' + $(elem_s).attr('href');
+                        maker.id = maker.link.split("/id=")[1].split("/")[0];
                         video.makers.push(maker);
                     });
                 }
@@ -121,6 +124,7 @@ exports.parseVideo = function(url, callback) {
                         var label = new Object();
                         label.name = $(elem_s).text();
                         label.link = 'http://www.dmm.co.jp' + $(elem_s).attr('href');
+                        label.id = label.link.split("/id=")[1].split("/")[0];
                         video.labels.push(label);
                     });
                 }
@@ -130,6 +134,7 @@ exports.parseVideo = function(url, callback) {
                         var keyword = new Object();
                         keyword.name = $(elem_s).text();
                         keyword.link = 'http://www.dmm.co.jp' + $(elem_s).attr('href');
+                        keyword.id = keyword.link.split("/id=")[1].split("/")[0];
                         video.keywords.push(keyword);
                     });
                 }
