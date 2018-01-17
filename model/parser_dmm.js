@@ -86,7 +86,7 @@ exports.parseVideo = function(url, callback) {
                 if ($(this).text().includes('出演者')) {
                     video.actresses = [];
                     $(this).find('span a').each(function(i_s, elem_s) {
-                        if ($(elem_s).text().indexof('すべて表示する') < 0) {
+                        if ($(elem_s).text().indexOf('すべて表示する') < 0) {
                             var actress = new Object();
                             actress.name = $(elem_s).text();
                             actress.link = 'http://www.dmm.co.jp' + $(elem_s).attr('href');
