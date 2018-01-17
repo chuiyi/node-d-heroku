@@ -11,7 +11,8 @@ exports.parseQueryUrl = function(keyword) {
     return str_url;
 };
 
-exports.parseList = function(url, callback) {
+function parseList(url, callback, videos_var) {
+    // console.log('parseList: ' + url);
     request({
         url: url,
         method: "GET"
@@ -19,24 +20,45 @@ exports.parseList = function(url, callback) {
         if (!e) {
             $ = cheerio.load(b);
 
-            var videos = new Array($('ul#list.li'));
+            // var videos = new Array($('ul#list.li'));
+            var videos = videos_var ? videos_var : [];
             $('ul#list').find('li').each(function(i, elem) {
                 var obj = new Object();
                 obj.title = $(this).find('span.img img').attr('alt');
                 obj.url = $(this).find('p.tmb a').attr('href').split("?").shift();
                 obj.cid = obj.url.split("/cid=")[1].split("/")[0];
                 obj.img_cover = 'http://pics.dmm.co.jp/digital/video/' + obj.cid + '/' + obj.cid + 'pl.jpg'
-                videos[i] = obj;
+                obj.img_thumbnail = 'http://pics.dmm.co.jp/digital/video/' + obj.cid + '/' + obj.cid + 'pt.jpg'
+                videos.push(obj);
             });
-
-            //list-boxcaptside list-boxpagenation
-            //parse 不只一頁狀況
-            // <li><a href="/digital/videoa/-/list/=/article=actress/id=21597/page=2/">次へ</a></li>
-            // <li class="terminal"><a href="/digital/videoa/-/list/=/article=actress/id=21597/page=4/">最後へ</a></li>
-            if (callback)
-                callback(videos);
+            parseList_CheckPagenation($, videos, callback);
         }
     });
+}
+
+function parseList_CheckPagenation($, videos, callback) {
+    // console.log('parseList_CheckPagenation: ' + videos.length);
+    //list-boxcaptside list-boxpagenation
+    //parse 不只一頁狀況
+    var url_next = '';
+    $('div.list-boxcaptside').find('li').each(function(i, elem) {
+        // console.log($(elem).text());
+        if ($(elem).text().indexOf('次へ') >= 0) {
+            url_next = 'http://www.dmm.co.jp' + $(elem).find('a').attr('href');
+            // console.log('url_next: ' + url_next);
+        }
+    });
+    if (url_next == '') {
+        if (callback)
+            callback(videos);
+    } else {
+        parseList(url_next, callback, videos);
+    }
+
+}
+
+exports.parseList = function(url, callback) {
+    parseList(url, callback);
 };
 
 exports.parseVideo = function(url, callback) {
@@ -49,9 +71,7 @@ exports.parseVideo = function(url, callback) {
 
             var video = new Object();
             video.link = url;
-            console.log(url);
             video.title = $('h1#title').text();
-
             video.cid = video.link.split("cid=")[1].split("/")[0];
             video.img_cover = 'http://pics.dmm.co.jp/digital/video/' + video.cid + '/' + video.cid + 'pl.jpg'
             var number = video.cid.match(/[a-zA-Z]+|[0-9]+/g);
@@ -85,7 +105,7 @@ exports.parseVideo = function(url, callback) {
                 }
                 if ($(this).text().includes('出演者')) {
                     video.actresses = [];
-                    video.actresses_huge = false;
+                    video.actresses_collection = false;
                     $(this).find('span a').each(function(i_s, elem_s) {
                         if ($(elem_s).text().indexOf('すべて表示する') < 0) {
                             var actress = new Object();
@@ -94,7 +114,7 @@ exports.parseVideo = function(url, callback) {
                             actress.id = actress.link.split("/id=")[1].split("/")[0];
                             video.actresses.push(actress);
                         } else {
-                            video.actresses_huge = true;
+                            video.actresses_collection = true;
                         }
                     });
                 }
