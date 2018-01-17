@@ -85,6 +85,7 @@ exports.parseVideo = function(url, callback) {
                         var actress = new Object();
                         actress.name = $(elem_s).text();
                         actress.link = 'http://www.dmm.co.jp' + $(elem_s).attr('href');
+                        actress.id = actress.link.split("/id=")[1].split("/")[0];
                         video.actresses.push(actress);
                     });
                 }

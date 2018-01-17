@@ -3,22 +3,25 @@ var router = express.Router();
 // var session = require('express-session');
 var dmm_parser = require('../model/parser_dmm.js');
 
+// api/dmm/query?q=
+// api/dmm/video?cid=
+// api/dmm/list?url=
+
+// 待實作
+// api/dmm/top
+// api/dmm/actress?id=
+// api/dmm/actress?name=
+
+
 router.all('/query', function(req, res) {
     if (req.query) {
         var url_search;
         if (req.query.q) {
             url_search = dmm_parser.parseQueryUrl(req.query.q);
         } else {
-            url_search = dmm_parser.parseQueryUrl('大橋未久');
-            // url_search = dmm_parser.parseQueryUrl('金城アンナ');
-            // var url_search = dmm_parser.parseQueryUrl('木下柚花');
-            // var url_search = dmm_parser.parseQueryUrl('早乙女ルイ');
-            // var url_search = dmm_parser.parseQueryUrl('神谷姫');
-            // var url_search = dmm_parser.parseQueryUrl('麻里梨夏');
-            // var url_search = dmm_parser.parseQueryUrl('柚月あい');
-            // var url_search = dmm_parser.parseQueryUrl('abp 141');
-            // var url_search = dmm_parser.parseQueryUrl('Tokyo 流儀');
-            // var url_search = dmm_parser.parseQueryUrl('最初で最後の姉妹共演');
+            res.send({
+                error: 'must contain arg "?q="'
+            });
             // var url_search = 'http://www.dmm.co.jp/digital/videoa/-/list/=/article=maker/id=40136/sort=date/';
             // http://www.dmm.co.jp/digital/videoa/-/actress/recommend/
             // http://www.dmm.co.jp/digital/videoa/-/actress/=/keyword=a/
@@ -80,6 +83,18 @@ router.all('/list', function(req, res) {
         }
         dmm_parser.parseList(url_list, function(videos) {
             res.send(videos);
+        });
+    }
+})
+
+router.all('/actress', function(req, res) {
+    if (req.query) {
+        var url_list = 'http://www.dmm.co.jp/digital/videoa/-/list/=/article=actress/id=1034355/';
+        if (req.query.id) {
+            url_list = 'http://www.dmm.co.jp/digital/videoa/-/list/=/article=actress/id=' + req.query.cid + '/';
+        }
+        dmm_parser.parseVideo(url_list, function(video) {
+            res.send(video);
         });
     }
 })
