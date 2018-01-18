@@ -6,10 +6,10 @@ var dmm_parser = require('../model/parser_dmm.js');
 // api/dmm/query?q=
 // api/dmm/video?cid=
 // api/dmm/list?url=
+// api/dmm/actress?id=
 
 // 待實作
 // api/dmm/top
-// api/dmm/actress?id=
 // api/dmm/actress?name=
 
 

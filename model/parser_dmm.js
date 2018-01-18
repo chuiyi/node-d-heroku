@@ -7,12 +7,10 @@ exports.parseQueryUrl = function(keyword) {
     str_url += 'limit=65536/';
     str_url += 'n1=FgRCTw9VBA4GAVhfWkIHWw__/';
     str_url += 'n2=Aw1fVhQKX1ZRAlhMUlo5QQgBU1lR/';
-    // console.log('search for: ' + str_url);
     return str_url;
 };
 
 function parseList(url, callback, videos_var) {
-    // console.log('parseList: ' + url);
     request({
         url: url,
         method: "GET"
@@ -27,8 +25,8 @@ function parseList(url, callback, videos_var) {
                 obj.title = $(this).find('span.img img').attr('alt');
                 obj.url = $(this).find('p.tmb a').attr('href').split("?").shift();
                 obj.cid = obj.url.split("/cid=")[1].split("/")[0];
-                obj.img_cover = 'http://pics.dmm.co.jp/digital/video/' + obj.cid + '/' + obj.cid + 'pl.jpg'
-                obj.img_thumbnail = 'http://pics.dmm.co.jp/digital/video/' + obj.cid + '/' + obj.cid + 'pt.jpg'
+                obj.img_cover = 'http://pics.dmm.co.jp/digital/video/' + obj.cid + '/' + obj.cid + 'pl.jpg';
+                obj.img_thumbnail = $(this).find('p.tmb img').attr('src');
                 videos.push(obj);
             });
             parseList_CheckPagenation($, videos, callback);
@@ -37,15 +35,12 @@ function parseList(url, callback, videos_var) {
 }
 
 function parseList_CheckPagenation($, videos, callback) {
-    // console.log('parseList_CheckPagenation: ' + videos.length);
     //list-boxcaptside list-boxpagenation
     //parse 不只一頁狀況
     var url_next = '';
     $('div.list-boxcaptside').find('li').each(function(i, elem) {
-        // console.log($(elem).text());
         if ($(elem).text().indexOf('次へ') >= 0) {
             url_next = 'http://www.dmm.co.jp' + $(elem).find('a').attr('href');
-            // console.log('url_next: ' + url_next);
         }
     });
     if (url_next == '') {
@@ -73,9 +68,10 @@ exports.parseVideo = function(url, callback) {
             video.link = url;
             video.title = $('h1#title').text();
             video.cid = video.link.split("cid=")[1].split("/")[0];
-            video.img_cover = 'http://pics.dmm.co.jp/digital/video/' + video.cid + '/' + video.cid + 'pl.jpg'
+
+            video.img_cover = $('a#' + video.cid).attr('href');
+            video.img_thumbnail = $('img#package-src-' + video.cid).attr('src');
             var number = video.cid.match(/[a-zA-Z]+|[0-9]+/g);
-            video.number_array = number;
             video.number = number[number.length - 2] + '-' + getNumberWithDigit(parseInt(number[number.length - 1]), 3);
             video.number = video.number.toUpperCase();
             video.description = $('div.mg-b20.lh4')[0].children[0].data.replace(/\n/g, '');
