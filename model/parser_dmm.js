@@ -70,7 +70,11 @@ exports.parseVideo = function(url, callback) {
             video.link = url;
             video.title = $('h1#title').text();
             video.cid = video.link.split("cid=")[1].split("/")[0];
-            video.img_cover = $('div#sample-video').find('a')[0].attr('href');
+            $('div#sample-video').find('a').each(function(i, e) {
+                if (i == 0) {
+                    video.img_cover = $(e).attr('href');
+                }
+            });
             video.img_thumbnail = $('div#sample-video').find('img')[0].attr('src');
             var number = video.cid.match(/[a-zA-Z]+|[0-9]+/g);
             video.number = number[number.length - 2] + '-' + getNumberWithDigit(parseInt(number[number.length - 1]), 3);
