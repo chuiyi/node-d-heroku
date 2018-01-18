@@ -25,10 +25,11 @@ function parseList(url, callback, videos_var) {
                 obj.title = $(this).find('span.img img').attr('alt');
                 obj.url = $(this).find('p.tmb a').attr('href').split("?").shift();
                 obj.cid = obj.url.split("/cid=")[1].split("/")[0];
-                obj.img_cover = 'http://pics.dmm.co.jp/digital/video/' + obj.cid + '/' + obj.cid + 'pl.jpg';
+                // obj.img_cover = 'http://pics.dmm.co.jp/digital/video/' + obj.cid + '/' + obj.cid + 'pl.jpg';
                 obj.img_thumbnail = $(this).find('p.tmb img').attr('src');
                 if (obj.img_thumbnail.indexOf('http:') < 0)
                     obj.img_thumbnail = 'http:' + obj.img_thumbnail;
+                obj.img_cover = obj.img_thumbnail.replace('pt.jpg', 'pl.jpg');
                 videos.push(obj);
             });
             parseList_CheckPagenation($, videos, callback);
