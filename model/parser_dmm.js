@@ -27,6 +27,8 @@ function parseList(url, callback, videos_var) {
                 obj.cid = obj.url.split("/cid=")[1].split("/")[0];
                 obj.img_cover = 'http://pics.dmm.co.jp/digital/video/' + obj.cid + '/' + obj.cid + 'pl.jpg';
                 obj.img_thumbnail = $(this).find('p.tmb img').attr('src');
+                if (obj.img_thumbnail.indexOf('http:') < 0)
+                    obj.img_thumbnail = 'http:' + obj.img_thumbnail;
                 videos.push(obj);
             });
             parseList_CheckPagenation($, videos, callback);
@@ -68,9 +70,8 @@ exports.parseVideo = function(url, callback) {
             video.link = url;
             video.title = $('h1#title').text();
             video.cid = video.link.split("cid=")[1].split("/")[0];
-
-            video.img_cover = $('a#' + video.cid).attr('href');
-            video.img_thumbnail = $('img#package-src-' + video.cid).attr('src');
+            video.img_cover = $('div#sample-video').find('a')[0].attr('href');
+            video.img_thumbnail = $('div#sample-video').find('img')[0].attr('src');
             var number = video.cid.match(/[a-zA-Z]+|[0-9]+/g);
             video.number = number[number.length - 2] + '-' + getNumberWithDigit(parseInt(number[number.length - 1]), 3);
             video.number = video.number.toUpperCase();
