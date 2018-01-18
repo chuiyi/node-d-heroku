@@ -77,7 +77,7 @@ exports.parseVideo = function(url, callback) {
             });
             $('div#sample-video').find('img').each(function(i, e) {
                 if (i == 0) {
-                    video.img_cover = $(e).attr('src');
+                    video.img_thumbnail = $(e).attr('src');
                 }
             });
             var number = video.cid.match(/[a-zA-Z]+|[0-9]+/g);
