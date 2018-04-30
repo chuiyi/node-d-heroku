@@ -14,7 +14,7 @@ router.post('/callback', line.middleware(config), (req, res) => {
         .all(req.body.events.map(handleEvent))
         .then((result) => res.json(result))
         .catch((err) => {
-            console.error(err);
+            console.error('LINEBOT_ERROR: ' + err);
             res.status(500).end();
         });
 });
@@ -22,6 +22,7 @@ router.post('/callback', line.middleware(config), (req, res) => {
 
 // event handler
 function handleEvent(event) {
+    console.log('LINEBOT_HANDLE_EVENT');
     if (event.type !== 'message' || event.message.type !== 'text') {
         // ignore non-text-message event
         return Promise.resolve(null);
