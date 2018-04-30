@@ -9,8 +9,7 @@ const config = {
 
 const client = new line.Client(config);
 
-router.use(line.middleware(config))
-router.post('/callback', (req, res) => {
+router.post('/callback', line.middleware(config), (req, res) => {
     Promise
         .all(req.body.events.map(handleEvent))
         .then((result) => res.json(result))
@@ -34,3 +33,5 @@ function handleEvent(event) {
     // use reply API
     return client.replyMessage(event.replyToken, echo);
 }
+
+module.exports = router;
