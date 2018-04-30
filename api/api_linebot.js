@@ -10,9 +10,10 @@ const config = {
 const client = new line.Client(config);
 
 router.post('/callback', line.middleware(config), (req, res) => {
+    console.log('LINEBOT_CALLBACK');
     Promise
         .all(req.body.events.map(handleEvent))
-        .then((result) => res.json(result))
+        .then((result) => res.sendStatus(200).json(result))
         .catch((err) => {
             console.error('LINEBOT_ERROR: ' + err);
             res.status(500).end();
