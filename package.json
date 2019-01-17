@@ -19,6 +19,6 @@
     "morgan": "^1.9.1",
     "request": "^2.88.0",
     "serve-favicon": "^2.4.5",
-    "sqlite3": "^4.0.4"
+    "tingodb": "^0.6.1"
   }
 }
