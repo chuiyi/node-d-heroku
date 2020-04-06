@@ -8,6 +8,12 @@ router.get('/', function (req, res, next) {
     });
 });
 
+router.get('/dmm/query', function (req, res, next) {
+    res.render('dmmQuery', {
+        title: 'Welcome to No Man\'s Land'
+    });
+});
+
 // router.get('/404', function(req, res, next) {
 //     // res.render('index');
 //     // proxy.web(req, res, {//     target: 'http://127.0.0.1:1001/'
